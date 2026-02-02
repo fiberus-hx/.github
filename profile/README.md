@@ -2,7 +2,7 @@
 
 Fiberus is a project to build a new [Haxe](https://haxe.org) compiler target with a fiber-based runtime for multiprocessing. The goal is to create a runtime where all concurrency is handled via [fibers/coroutines](https://graphitemaster.github.io/fibers/#what-are-fibers), with integrated garbage collection.
 
-Fiberus exists to let you write clean, idiomatic Haxe code while enjoying cooperative concurrency that feels like a natural part of the language and runtime—without the friction of high-level async/await constructs that always seemed like an afterthought layered on top in other languages and runtimes.
+Fiberus exists to let you write clean, idiomatic Haxe code while enjoying cooperative concurrency that feels like a natural part of the language and runtime - without the friction of high-level async/await constructs that always seemed like an afterthought layered on top in other languages and runtimes.
 
 Fiberus is designed specifically for workloads that can benefit from **lightweight, cooperative concurrency** using fibers (user-mode coroutines) combined with a **work-stealing scheduler** and tight GC integration.
 
