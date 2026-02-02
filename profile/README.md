@@ -4,7 +4,6 @@ Fiberus is a project to build a new [Haxe](https://haxe.org) compiler target wit
 
 Fiberus exists to let you write clean, idiomatic Haxe code while enjoying cooperative concurrency that feels like a natural part of the language and runtime - without the friction of high-level async/await constructs that always seemed like an afterthought layered on top in other languages and runtimes.
 
-Fiberus 
 
 ### Target Use Cases
 
