@@ -8,7 +8,7 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 ### Target Use Cases
 
 1. **High-concurrency task-parallel applications** - Breaking work into thousands of small, independent jobs (e.g., ray tracing, physics simulation, build pipelines, data processing)
-2. **Game engines and real-time systems** - Inspired by the Naughty Dog fiber model (GDC 2015 talk)
+2. **Game engines and real-time systems** - Inspired by the [Naughty Dog fiber model (GDC 2015 talk)](https://gdcvault.com/play/1022186/Parallelizing-the-Naughty-Dog-Engine)
 3. **Server-side applications with massive concurrency** - Web servers, game servers, chat systems
 4. **Embarrassingly parallel compute workloads** - Raytracers, video encoders, scientific simulations
 5. **Scenarios where preemptive threads are problematic** - Avoiding priority inversion, thread starvation, or complex mutex hierarchies
