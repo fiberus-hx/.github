@@ -13,10 +13,9 @@ Fiberus is designed specifically for workloads that can benefit from **lightweig
 5. **Scenarios where preemptive threads are problematic** - Avoiding priority inversion, thread starvation, or complex mutex hierarchies
 
 ---
-### Fiberus via Tracy-Profiler
-
+### Fiberus + Tracy-Profiler
+A simple webserver written in Haxe running fiberus, spawning a fiber for every request.
 <img width="1910" height="1071" alt="image" src="https://github.com/user-attachments/assets/d85eda62-0d13-47fe-b59c-39f5ad48d971" />
-
 
 <!--
 
