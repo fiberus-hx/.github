@@ -12,6 +12,11 @@ Fiberus is designed specifically for workloads that can benefit from **lightweig
 4. **Embarrassingly parallel compute workloads** - Raytracers, video encoders, scientific simulations
 5. **Scenarios where preemptive threads are problematic** - Avoiding priority inversion, thread starvation, or complex mutex hierarchies
 
+---
+### Fiberus via Tracy-Profiler
+
+<img width="1910" height="1071" alt="image" src="https://github.com/user-attachments/assets/d85eda62-0d13-47fe-b59c-39f5ad48d971" />
+
 
 <!--
 
