@@ -14,6 +14,35 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 
 ---
 
+### Project Status
+
+| Metric | Value |
+|--------|-------|
+| **Haxe Std Library Parity** | ~95-97% with hxcpp |
+| **Haxe Unit Tests** | 11,032 assertions — 0 failures |
+| **Fiberus Native Tests** | ~1,607 assertions — all passing |
+| **Combined Test Coverage** | ~12,639 assertions |
+| **Codebase** | ~65,300 lines across ~186 files |
+| **Platform** | Linux x86_64 only |
+
+(Same Haxe unit test suite used by hxcpp, HashLink, and JVM targets.)
+
+**What works today:**
+- Full fiber spawn/yield/context switching (hand-written x86-64 assembly)
+- Work-stealing multi-threaded scheduler (Chase-Lev deque)
+- Generational garbage collection (Fibrix with nursery/mature generations)
+- io_uring async I/O — fibers yield instead of blocking threads
+- SSL/TLS via mbedTLS with io_uring-integrated BIO
+- HTTP/HTTPS client, TCP/UDP sockets
+- SQLite with custom VFS routing I/O through io_uring (non-blocking)
+- Full runtime reflection and type introspection (Reflect, Type)
+- SIMD-accelerated JSON parsing (simdjson), UTF-8 (simdutf), regex (pcre2)
+- Crypto: Md5, Sha1, Sha256, Base64, Crc32, Adler32
+- Subprocess management with pidfd + io_uring for fiber-friendly waiting
+- Collections, pattern matching, enums, generics, closures, exception handling
+
+---
+
 ### Fiberus in action
 A [simple webserver written in Haxe running fiberus](https://gist.github.com/dazKind/163137765d166a98df68f073d52b8d24), spawning a fiber for every request ([Loadtest Results](https://gist.github.com/dazKind/2483162f05da0194fceaac6d73537bd7)).
 
@@ -43,13 +72,4 @@ The still unoptimized garbage collector's major STW collections clearly visible 
 - **io_uring-Based Non-Blocking I/O**  
   Per-thread io_uring instances drive asynchronous file and network operations. I/O completion wakes the waiting fiber directly, keeping threads fully utilized. Pending I/O requests are tracked as GC roots, and the design integrates with the Counter primitive for composable async patterns.
 
-<!--
 
-**Here are some ideas to get you started:**
-
-🙋‍♀️ A short introduction - what is your organization all about?
-🌈 Contribution guidelines - how can the community get involved?
-👩‍💻 Useful resources - where can the community find your docs? Is there anything else the community should know?
-🍿 Fun facts - what does your team eat for breakfast?
-🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
--->
