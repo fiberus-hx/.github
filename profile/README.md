@@ -12,6 +12,10 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 4. **Embarrassingly parallel compute workloads** - Raytracers, video encoders, scientific simulations
 5. **Scenarios where preemptive threads are problematic** - Avoiding priority inversion, thread starvation, or complex mutex hierarchies
 
+
+### Contact
+[Get in touch on Discord](https://discord.com/channels/162395145352904705/1475242607910195270)
+
 ---
 
 ### Project Status
