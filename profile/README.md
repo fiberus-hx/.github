@@ -41,7 +41,7 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 - Subprocess management with pidfd + io_uring for fiber-friendly waiting
 - Collections, pattern matching, enums, generics, closures, exception handling
 
-### Fiberus Repositories
+**Fiberus Repositories**
 - [Haxe Compiler Fork](https://github.com/fiberus-hx/haxe/tree/fiberus)
 - [Fiberus Runtime](https://github.com/fiberus-hx/fiberus)
 - [Filewatch Fiberus Externs](https://github.com/fiberus-hx/fib_filewatch)
