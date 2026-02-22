@@ -42,13 +42,13 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 - Collections, pattern matching, enums, generics, closures, exception handling
 
 **Fiberus Repositories**
-- [Haxe Compiler Fork](https://github.com/fiberus-hx/haxe/tree/fiberus)
-- [Fiberus Runtime](https://github.com/fiberus-hx/fiberus)
-- [Filewatch Fiberus Externs](https://github.com/fiberus-hx/fib_filewatch)
-- [Meow Fiberus Externs](https://github.com/fiberus-hx/fib_meow)
-- [RGFW Fiberus Externs](https://github.com/fiberus-hx/fib_rgfw)
-- [Yoga Fiberus Externs](https://github.com/fiberus-hx/fib_yoga)
-- [Warp10 HTTP Framework](https://github.com/fiberus-hx/warp10)
+- [Haxe Compiler](https://github.com/fiberus-hx/haxe/tree/fiberus) - Compiler Fork containing the fiberus codegenerator
+- [Fiberus Runtime](https://github.com/fiberus-hx/fiberus) - Fiberus C-Runtime
+- [Filewatch Fiberus Externs](https://github.com/fiberus-hx/fib_filewatch) - Filewatching externs
+- [Meow Fiberus Externs](https://github.com/fiberus-hx/fib_meow) - Meow Hashing
+- [RGFW Fiberus Externs](https://github.com/fiberus-hx/fib_rgfw) - Riley's General Framework for Windowing externs
+- [Yoga Fiberus Externs](https://github.com/fiberus-hx/fib_yoga) - Meta's Yoga Layout externs
+- [Warp10 HTTP Framework](https://github.com/fiberus-hx/warp10) - High-performance HTTP framework designed for fiberus
 
 ---
 
