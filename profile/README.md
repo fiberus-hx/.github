@@ -19,9 +19,9 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 | Metric | Value |
 |--------|-------|
 | **Haxe Std Library Parity** | ~95-97% with hxcpp |
-| **Haxe Unit Tests** | 11,551 assertions — 0 failures |
-| **Fiberus Native Tests** | ~1,607 assertions — all passing |
-| **Combined Test Coverage** | ~13,158 assertions |
+| **Haxe Unit Tests** | 11,693 assertions — 0 failures |
+| **Fiberus Native Tests** | ~1,621 assertions — all passing |
+| **Combined Test Coverage** | ~13,314 assertions |
 | **Codebase** | ~65,300 lines across ~186 files |
 | **Platform** | Linux x86_64 only |
 
