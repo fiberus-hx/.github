@@ -86,9 +86,9 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 ### Fiberus in action
 A [simple webserver written in Haxe running fiberus](https://gist.github.com/dazKind/163137765d166a98df68f073d52b8d24), spawning a fiber for every request ([Loadtest Results](https://gist.github.com/dazKind/2483162f05da0194fceaac6d73537bd7)).
 
-The still unoptimized garbage collector's major STW collections clearly visible via Tracy-Profiler:
+Our MaPLe-inspired Hierarchical Heap GC (per-fiber heaps, depth-based write barriers, Cheney copying collector) in action:
 
-<img width="764" height="745" alt="image" src="https://github.com/user-attachments/assets/c9d07aab-2b14-4419-8dcb-a06c5184bbb6" />
+<img width="1039" height="590" alt="image" src="https://github.com/user-attachments/assets/f3af30f1-e45b-4679-a090-2d9c0ad9552d" />
 
 
 
