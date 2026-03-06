@@ -18,32 +18,59 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 
 ---
 
-### Project Status
+## Project Status
 
-| Metric | Value |
-|--------|-------|
-| **Haxe Std Library Parity** | ~95-97% with hxcpp |
-| **Haxe Unit Tests** | 11,693 assertions — 0 failures |
-| **Fiberus Native Tests** | ~1,621 assertions — all passing |
-| **Combined Test Coverage** | ~13,314 assertions |
-| **Codebase** | ~65,300 lines across ~186 files |
-| **Platform** | Linux x86_64 only |
+- **Current Maturity:** ~97-99% Haxe standard library parity with hxcpp
+- **Haxe Unit Tests:** 11,693 assertions — 0 failures (same test suite as hxcpp, HashLink, JVM)
+- **Fiberus Native Tests:** ~1,669 assertions — all passing (2 pre-existing WeakMap failures)
+- **Combined Test Coverage:** ~13,362 assertions
+- **Platform:** Linux x86_64 only
 
-(Same Haxe unit test suite used by hxcpp, HashLink, and JVM targets.)
+### What Works
 
-**What works today:**
-- Full fiber spawn/yield/context switching (hand-written x86-64 assembly)
+**Core Language:**
+- Fiber spawn/yield/context switching (hand-written x86_64 assembly)
 - Work-stealing multi-threaded scheduler (Chase-Lev deque)
-- Generational garbage collection (Fibrix with nursery/mature generations)
-- io_uring async I/O — fibers yield instead of blocking threads
-- SSL/TLS via mbedTLS with io_uring-integrated BIO
-- HTTP/HTTPS client, TCP/UDP sockets
-- SQLite with custom VFS routing I/O through io_uring (non-blocking)
-- Full runtime reflection and type introspection (Reflect, Type)
-- SIMD-accelerated JSON parsing (simdjson), UTF-8 (simdutf), regex (pcre2)
-- Crypto: Md5, Sha1, Sha256, Base64, Crc32, Adler32
-- Subprocess management with pidfd + io_uring for fiber-friendly waiting
-- Collections, pattern matching, enums, generics, closures, exception handling
+- MaPLe-inspired Hierarchical Heap GC (per-fiber heaps, depth-based write barriers, Cheney copying collector)
+- Closures with capture
+- Exception handling with typed catch (Int, Float, Bool, String, Object instanceof, Dynamic catch-all)
+- Pattern matching, enums with parameters, generic classes
+
+**Standard Library:**
+- Collections: IntMap, StringMap, Int64Map, ObjectMap (full iteration support)
+- Reflect, Type (full runtime reflection and type introspection — all methods implemented)
+- EReg (pcre2-backed regular expressions)
+- haxe.Json (simdjson parser, custom printer)
+- haxe.zip.Compress/Uncompress (miniz)
+- haxe.crypto: Md5, Sha1, Sha256, Base64, Crc32, Adler32
+- haxe.Utf8 (simdutf-backed)
+- haxe.Resource (embedded binary resources)
+- haxe.Serializer / haxe.Unserializer (full serialization/deserialization)
+- haxe.Http (HTTP/HTTPS client)
+- Xml (full DOM parser/builder)
+- StringBuf (C-backed growable buffer)
+- Std.parseInt, Std.parseFloat, Std.isOfType
+- haxe.Exception (native exception integration)
+
+**I/O and Networking:**
+- io_uring async I/O (fibers yield instead of blocking threads)
+- File/Socket I/O via io_uring
+- sys.ssl.Socket, Key, Certificate, Digest (mbedTLS, io_uring-integrated)
+- sys.io.Process (subprocess.h, pidfd + io_uring for fiber-friendly waiting)
+- sys.net.Socket, UdpSocket
+
+**Threading and Concurrency:**
+- sys.thread.Tls (real slot-based thread-local storage)
+- sys.thread.Thread.create maps to Fiber.spawn
+- haxe.atomic: AtomicInt, AtomicBool, AtomicObject (GCC builtins, SEQ_CST, value-based CAS)
+- Mutex/Lock/Condition/Semaphore/Deque stubs (throw directing to fiber API)
+
+**Database:**
+- fiberus.db.Sqlite: Connection, ResultSet, prepared statements
+- Custom SQLite VFS routing xRead/xWrite/xSync through io_uring (non-blocking)
+
+**Native Types:**
+- Int8-Int64, UInt8-UInt64, Float32/64, SizeT, Char
 
 **Fiberus Repositories**
 - [Haxe Compiler](https://github.com/fiberus-hx/haxe/tree/fiberus) - Compiler Fork containing the fiberus codegenerator
@@ -63,26 +90,6 @@ The still unoptimized garbage collector's major STW collections clearly visible 
 
 <img width="764" height="745" alt="image" src="https://github.com/user-attachments/assets/c9d07aab-2b14-4419-8dcb-a06c5184bbb6" />
 
----
-### Fiberus Architecture Overview
 
-- **Cooperative Fibers**  
-  Lightweight, user-space coroutines with dedicated per-fiber stacks (guard pages + buffer zones for overflow safety). Context switching is implemented in hand-written x86-64 assembly for minimal overhead, enabling millions of concurrent fibers without kernel thread blocking.
-
-- **Lock-Free Work-Stealing Scheduler**  
-  Multi-threaded task distribution using the Chase-Lev dynamic circular work-stealing deque. Owner operations (push/pop) are wait-free; steal operations are lock-free. Integrated GC-safe scanning of deques and last-popped fibers ensures correctness during stop-the-world pauses.
-
-- **Targeted Fiber Spawning**  
-  In addition to opportunistic work-stealing, fibers can explicitly route new child fibers to the inbox of any chosen thread. This enables thread affinity, load balancing hints, or actor-style message passing while preserving the lock-free, high-throughput nature of the scheduler.
-
-- **Fibrix Garbage Collector**  
-  A novel fiber-aware, generational collector inspired by Immix and Naughty Dog’s GDC 2015 design:  
-  - Per-thread nurseries with Cheney-style evacuating minor collections and write barriers  
-  - Mature space using 2 MiB superblocks (64 × 32 KB blocks) and per-thread bump-pointer caches  
-  - Precise root tracking via explicit temp-root pushes generated by the compiler  
-  - Conservative fiber stack scanning with tracked bounds  
-
-- **io_uring-Based Non-Blocking I/O**  
-  Per-thread io_uring instances drive asynchronous file and network operations. I/O completion wakes the waiting fiber directly, keeping threads fully utilized. Pending I/O requests are tracked as GC roots, and the design integrates with the Counter primitive for composable async patterns.
 
 
