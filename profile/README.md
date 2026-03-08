@@ -77,7 +77,7 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 - [Meow Fiberus Externs](https://github.com/fiberus-hx/fib_meow) - Meow Hashing
 - [RGFW Fiberus Externs](https://github.com/fiberus-hx/fib_rgfw) - Riley's General Framework for Windowing externs
 - [Yoga Fiberus Externs](https://github.com/fiberus-hx/fib_yoga) - Meta's Yoga Layout externs
-- [Sqlite3](https://github.com/fiberus-hx/fib_sqlite3) - SQLite3 database library + Custom non-blocking SQLite VFS for the Fiberus runtime.
+- [Sqlite3 Fiberus Externs](https://github.com/fiberus-hx/fib_sqlite3) - SQLite3 database library + Custom non-blocking SQLite VFS for the Fiberus runtime.
 - [Warp10 HTTP Framework](https://github.com/fiberus-hx/warp10) - High-performance HTTP framework designed for fiberus
 
 ---
