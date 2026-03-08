@@ -83,7 +83,7 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 ---
 
 ### Fiberus in action
-A [simple webserver written in Haxe running fiberus](https://gist.github.com/dazKind/163137765d166a98df68f073d52b8d24), spawning a fiber for every request ([Loadtest Results](https://gist.github.com/dazKind/2483162f05da0194fceaac6d73537bd7)).
+A [simple webserver written in Haxe running fiberus](https://github.com/fiberus-hx/fiberus/blob/main/benchs/http/SimpleWebServer.hx), spawning a fiber for every request ([Loadtest Results](https://gist.github.com/dazKind/2483162f05da0194fceaac6d73537bd7)).
 
 Our MaPLe-inspired Hierarchical Heap GC (per-fiber heaps, depth-based write barriers, Cheney copying collector) in action:
 
