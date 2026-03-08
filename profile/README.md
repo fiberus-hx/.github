@@ -65,9 +65,7 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 - haxe.atomic: AtomicInt, AtomicBool, AtomicObject (GCC builtins, SEQ_CST, value-based CAS)
 - Mutex/Lock/Condition/Semaphore/Deque stubs (throw directing to fiber API)
 
-**Database:**
-- fiberus.db.Sqlite: Connection, ResultSet, prepared statements
-- Custom SQLite VFS routing xRead/xWrite/xSync through io_uring (non-blocking)
+
 
 **Native Types:**
 - Int8-Int64, UInt8-UInt64, Float32/64, SizeT, Char
@@ -79,6 +77,7 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 - [Meow Fiberus Externs](https://github.com/fiberus-hx/fib_meow) - Meow Hashing
 - [RGFW Fiberus Externs](https://github.com/fiberus-hx/fib_rgfw) - Riley's General Framework for Windowing externs
 - [Yoga Fiberus Externs](https://github.com/fiberus-hx/fib_yoga) - Meta's Yoga Layout externs
+- [Sqlite3](https://github.com/fiberus-hx/fib_sqlite3) - SQLite3 database library + Custom non-blocking SQLite VFS for the Fiberus runtime.
 - [Warp10 HTTP Framework](https://github.com/fiberus-hx/warp10) - High-performance HTTP framework designed for fiberus
 
 ---
