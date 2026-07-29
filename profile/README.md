@@ -31,7 +31,11 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 **Core Language:**
 - Fiber spawn/yield/context switching (hand-written x86_64 assembly)
 - Work-stealing multi-threaded scheduler (Chase-Lev deque)
-- MaPLe-inspired Hierarchical Heap GC (per-fiber heaps, depth-based write barriers, Cheney copying collector)
+- Fibrix GC — fiber-aware generational collector (Immix / Naughty Dog GDC 2015 inspired):
+  - Per-thread nurseries with Cheney-style evacuating minor collections, write barriers + remembered sets
+  - Mature space of 2 MiB superblocks (64 × 32 KB blocks) with per-thread bump-pointer caches; separate large-object pool
+  - Stop-the-world mark-sweep major collections with safe-points; precise GCFrame shadow-stack roots plus conservative fiber-stack scanning
+  - Concurrent (SATB) marking exists as experimental opt-in; STW is the production default
 - Closures with capture
 - Exception handling with typed catch (Int, Float, Bool, String, Object instanceof, Dynamic catch-all)
 - Pattern matching, enums with parameters, generic classes
@@ -61,9 +65,9 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 
 **Threading and Concurrency:**
 - sys.thread.Tls (real slot-based thread-local storage)
-- sys.thread.Thread.create maps to Fiber.spawn
+- sys.thread.Thread.create throws — use fiberus.Fiber.spawn instead
 - haxe.atomic: AtomicInt, AtomicBool, AtomicObject (GCC builtins, SEQ_CST, value-based CAS)
-- Mutex/Lock/Condition/Semaphore/Deque stubs (throw directing to fiber API)
+- sys.thread.Mutex is a no-op and Lock a plain counter (mutual exclusion is implicit with cooperative fibers); Condition/Semaphore/Deque throw "not supported"
 
 
 
@@ -84,8 +88,6 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 
 ### Fiberus in action
 A [simple webserver written in Haxe running fiberus](https://github.com/fiberus-hx/fiberus/blob/main/benchs/http/SimpleWebServer.hx), spawning a fiber for every request ([Loadtest Results](https://gist.github.com/dazKind/2483162f05da0194fceaac6d73537bd7)).
-
-Our MaPLe-inspired Hierarchical Heap GC (per-fiber heaps, depth-based write barriers, Cheney copying collector) in action:
 
 <img width="1039" height="590" alt="image" src="https://github.com/user-attachments/assets/f3af30f1-e45b-4679-a090-2d9c0ad9552d" />
 
