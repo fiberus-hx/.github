@@ -22,8 +22,9 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 
 - **Current Maturity:** ~97-99% Haxe standard library parity with hxcpp
 - **Haxe Unit Tests:** 11,693 assertions — 0 failures (same test suite as hxcpp, HashLink, JVM)
-- **Fiberus Native Tests:** ~1,669 assertions — all passing (2 pre-existing WeakMap failures)
-- **Combined Test Coverage:** ~13,362 assertions
+- **Fiberus Native Tests:** 1,751 assertions release / 1,752 debug — 0 failures
+- **Combined Test Coverage:** ~13,444 assertions
+- **Build hygiene:** runtime, native tests and the Haxe unit suite compile with zero warnings under `-Wall -Wextra`
 - **Platform:** Linux x86_64 only
 
 ### What Works
@@ -32,16 +33,16 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 - Fiber spawn/yield/context switching (hand-written x86_64 assembly)
 - Work-stealing multi-threaded scheduler (Chase-Lev deque)
 - Fibrix GC — fiber-aware generational collector (Immix / Naughty Dog GDC 2015 inspired):
-  - Per-thread nurseries with Cheney-style evacuating minor collections, write barriers + remembered sets
+  - Per-thread nurseries with Cheney-style evacuating minor collections, write barriers + remembered sets; compiler-generated per-class layout tables let the minor scan object bodies precisely
   - Mature space of 2 MiB superblocks (64 × 32 KB blocks) with per-thread bump-pointer caches; separate large-object pool
-  - Stop-the-world mark-sweep major collections with safe-points; precise GCFrame shadow-stack roots plus conservative fiber-stack scanning
-  - Concurrent (SATB) marking exists as experimental opt-in; STW is the production default
+  - Stop-the-world mark-sweep major collections with safe-points; precise GCFrame shadow-stack roots (no conservative fiber-stack scanning)
+  - Concurrent (SATB) major marking exists as an experimental opt-in (`FIBERUS_CONCURRENT_MAJOR=1`); it is not yet sound under load, so STW is the production default
 - Closures with capture
 - Exception handling with typed catch (Int, Float, Bool, String, Object instanceof, Dynamic catch-all)
 - Pattern matching, enums with parameters, generic classes
 
 **Standard Library:**
-- Collections: IntMap, StringMap, Int64Map, ObjectMap (full iteration support)
+- Collections: IntMap, StringMap, Int64Map, ObjectMap, WeakMap (full iteration support)
 - Reflect, Type (full runtime reflection and type introspection — all methods implemented)
 - EReg (pcre2-backed regular expressions)
 - haxe.Json (simdjson parser, custom printer)
@@ -67,16 +68,18 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 - sys.thread.Tls (real slot-based thread-local storage)
 - sys.thread.Thread.create throws — use fiberus.Fiber.spawn instead
 - haxe.atomic: AtomicInt, AtomicBool, AtomicObject (GCC builtins, SEQ_CST, value-based CAS)
-- sys.thread.Mutex is a no-op and Lock a plain counter (mutual exclusion is implicit with cooperative fibers); Condition/Semaphore/Deque throw "not supported"
+- sys.thread.Mutex is a real (recursive) mutex and Lock a plain non-blocking counter; Condition/Semaphore/Deque throw "not supported"
 
 
 
 **Native Types:**
 - Int8-Int64, UInt8-UInt64, Float32/64, SizeT, Char
+- Haxe `Int` wraps as 32-bit two's complement, as on the other targets (the C output is built with `-fwrapv`)
+
 
 **Fiberus Repositories**
 - [Haxe Compiler](https://github.com/fiberus-hx/haxe/tree/fiberus) - Compiler Fork containing the fiberus codegenerator
-- [Fiberus Runtime](https://github.com/fiberus-hx/fiberus) - Fiberus C-Runtime
+- Fiberus C-Runtime (private for now)
 - [Filewatch Fiberus Externs](https://github.com/fiberus-hx/fib_filewatch) - Filewatching externs
 - [Meow Fiberus Externs](https://github.com/fiberus-hx/fib_meow) - Meow Hashing
 - [RGFW Fiberus Externs](https://github.com/fiberus-hx/fib_rgfw) - Riley's General Framework for Windowing externs
@@ -87,7 +90,29 @@ Fiberus exists to let you write clean, idiomatic [Haxe code](https://haxe.org/do
 ---
 
 ### Fiberus in action
-A [simple webserver written in Haxe running fiberus](https://github.com/fiberus-hx/fiberus/blob/main/benchs/http/SimpleWebServer.hx), spawning a fiber for every request ([Loadtest Results](https://gist.github.com/dazKind/2483162f05da0194fceaac6d73537bd7)).
+A [simple webserver written in Haxe running fiberus](https://github.com/fiberus-hx/fiberus/blob/main/benchs/http/SimpleWebServer.hx), spawning a fiber for every request:
+
+```bash
+Running load test for 10s...
+---
+Running 10s test @ http://127.0.0.1:8084/
+  2 threads and 10 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    48.16us  272.74us   8.18ms   97.03%
+    Req/Sec   387.35k    22.29k  429.28k    74.26%
+  Latency Distribution
+     50%   11.00us
+     75%   12.00us
+     90%   15.00us
+     99%    1.08ms
+  7767392 requests in 10.10s, 1.43GB read
+  Socket errors: connect 0, read 7763, write 0, timeout 0
+Requests/sec: 769059.60
+Transfer/sec:    144.49MB
+---
+
+SUCCESS: Server survived the load test
+```
 
 <img width="1039" height="590" alt="image" src="https://github.com/user-attachments/assets/f3af30f1-e45b-4679-a090-2d9c0ad9552d" />
 
